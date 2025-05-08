@@ -1,0 +1,33 @@
+# Python
+*.pyc
+*.pyo
+__pycache__/
+*.pyd
+*.pdb
+*.egg-info/
+*.eggs/
+*.pytest_cache/
+
+# Virtual Environment
+venv/
+env/
+
+# Environment Variables
+.env
+
+# Alembic
+migrations/versions/*.pyc
+migrations/versions/*.pyo
+
+# Logs
+*.log
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Files
+.DS_Store
+Thumbs.db
