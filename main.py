@@ -3,6 +3,8 @@ import models
 from schemas import Poll as PollSchema, PollOption as PollOptionSchema  # Import Pydantic models
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import OperationalError
+from sqlalchemy.sql import text  # Import the text function
 from typing import List
 
 # Initialize database tables
@@ -12,7 +14,18 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to Quick Poll!"}
+    try:
+        # Test database connection
+        with engine.connect() as connection:
+            connection.execute(text("SELECT 1"))  # Use text() for the SQL query
+        db_status = "OK"
+    except OperationalError:
+        db_status = "NOT OK"
+
+    return {
+        "message": "Welcome to Quick Poll!",
+        "database_connection": db_status
+    }
 
 @app.post("/api/polls/", response_model=PollSchema)
 def create_poll(poll: PollSchema, db: Session = Depends(get_db)):
